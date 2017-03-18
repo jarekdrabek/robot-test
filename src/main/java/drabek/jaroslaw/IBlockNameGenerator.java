@@ -1,5 +1,5 @@
 package drabek.jaroslaw;
 
-public interface IBlockNameGanarator {
+public interface IBlockNameGenerator {
     String getABlockName();
 }

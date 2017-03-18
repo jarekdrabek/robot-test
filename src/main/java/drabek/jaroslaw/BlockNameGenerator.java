@@ -1,6 +1,6 @@
 package drabek.jaroslaw;
 
-public class BlockNameGenerator implements IBlockNameGanarator {
+public class BlockNameGenerator implements IBlockNameGenerator {
     private int counter = 0;
     private static final String BLOCKNAMESSTRING = "ABCDEFGHIJKLMNOP";
 
