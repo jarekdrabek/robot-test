@@ -7,20 +7,20 @@ import java.util.stream.IntStream;
 
 public class BlockNameGeneratorTest {
 
-//    @Test(expectedExceptions = {IllegalStateException.class})
-//    public void throwExceptionIfToManyNamesGenerated(){
-//        //Given
-//        IBlockNameGanarator blockNameGenerator = new BlockNameGenerator();
-//        //When
-//        IntStream.range(0,11).forEach(i -> blockNameGenerator.getABlockName());
-//    }
+    @Test(expectedExceptions = {IllegalStateException.class})
+    public void throwExceptionIfToManyNamesGenerated(){
+        //Given
+        IBlockNameGanarator blockNameGenerator = new BlockNameGenerator();
+        //When
+        IntStream.range(0,17).forEach(i -> blockNameGenerator.getABlockName());
+    }
 
     @Test
-    public void do_not_throw_exception_if_10_names_generated(){
+    public void do_not_throw_exception_if_16_names_generated(){
         //Given
         IBlockNameGanarator underTest = new BlockNameGenerator();
         //When
-        IntStream.range(0,10).forEach(i -> underTest.getABlockName());
+        IntStream.range(0,16).forEach(i -> underTest.getABlockName());
     }
 
     @Test

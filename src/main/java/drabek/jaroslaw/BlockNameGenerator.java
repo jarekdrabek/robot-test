@@ -6,6 +6,9 @@ public class BlockNameGenerator implements IBlockNameGanarator {
 
         @Override
     public String getABlockName() {
+        if(counter>BLOCKNAMESSTRING.length()-1){
+            throw new IllegalStateException("Block names limit exceeded");
+        }
         String blockName = String.valueOf(BLOCKNAMESSTRING.charAt(counter));
         counter++;
         return blockName;
