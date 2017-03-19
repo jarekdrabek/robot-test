@@ -2,7 +2,7 @@ package drabek.jaroslaw;
 
 import com.google.common.base.Objects;
 
-class OverCommand implements Command{
+class OverCommand extends Command {
     private final String from;
     private final String to;
 

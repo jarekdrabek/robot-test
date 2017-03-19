@@ -23,8 +23,6 @@ public class RobotProgramTest {
         //Given
         Mockito.when(blockNameGenerator.getABlockName()).thenReturn("A");
         RobotProgram robotProgram = RobotProgram.init("10\n" +
-                "move 4 over 3\n" +
-                "move 3 onto 5\n" +
                 "quit", blockNameGenerator);
         //Then
         assertThat(robotProgram.numberOfBlocks()).isEqualTo(10);
@@ -35,24 +33,41 @@ public class RobotProgramTest {
         //Given
         Mockito.when(blockNameGenerator.getABlockName()).thenReturn("C");
         RobotProgram robotProgram = RobotProgram.init("5\n" +
-                "move 4 over 3\n" +
-                "move 3 onto 5\n" +
                 "quit", blockNameGenerator);
         //Then
         assertThat(robotProgram.numberOfBlocks()).isEqualTo(5);
     }
 
     @Test
-    public void test_that_one_over_command_line_cause_over_command_produced(){
+    public void test_that_1_over_2_command_line_proper_OverCommand_being_produced(){
         //Given
         Mockito.when(blockNameGenerator.getABlockName()).thenReturn("1","2");
-        RobotProgram robotProgram = RobotProgram.init("4\n" +
+        RobotProgram robotProgram = RobotProgram.init("2\n" +
                 "move 1 over 2\n" +
                 "quit", blockNameGenerator);
         //Then
         assertThat(robotProgram.command(0)).isEqualTo(new OverCommand("1","2"));
     }
 
+    @Test(expectedExceptions = IllegalStateException.class)
+    public void test_that_command_should_start_with_move_otherwise_exception(){
+        //Given
+        Mockito.when(blockNameGenerator.getABlockName()).thenReturn("1","2");
+        RobotProgram robotProgram = RobotProgram.init("2\n" +
+                "ble 1 over 2\n" +
+                "quit", blockNameGenerator);
+    }
+
+    @Test
+    public void test_that_2_over_1_command_line_make_OverCommand_being_produced(){
+        //Given
+        Mockito.when(blockNameGenerator.getABlockName()).thenReturn("1","2");
+        RobotProgram robotProgram = RobotProgram.init("2\n" +
+                "move 2 over 1\n" +
+                "quit", blockNameGenerator);
+        //Then
+        assertThat(robotProgram.command(0)).isEqualTo(new OverCommand("2","1"));
+    }
 
 
 
