@@ -1,7 +1,6 @@
 package drabek.jaroslaw;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -19,23 +18,29 @@ class RobotProgram {
     }
 
     static RobotProgram init(String programString, IBlockNameGenerator blockNameGenerator){
-        String[] programLines = programString.split("\n");
-        List<Block> blocks = generateBlocks(blockNameGenerator, programLines);
-        List<Command> commands = parseCommands(programLines);
-
-        return new RobotProgram(blocks, commands);
+        try {
+            String[] programLines = programString.split("\n");
+            String firstLineOfProgram = programLines[0];
+            List<Block> blocks = generateBlocks(firstLineOfProgram, blockNameGenerator);
+            List<Command> commands = parseCommands(programLines);
+            return new RobotProgram(blocks, commands);
+        } catch(NumberFormatException ex){
+            throw new IllegalStateException("Wrong format of input program");
+        }
     }
 
     private static List<Command> parseCommands(String[] programLines) {
-        List<Command> collect = IntStream.range(0, programLines.length)
-                .filter(index -> index != 0 && index != programLines.length - 1)
+        return IntStream.range(0, programLines.length)
+                .filter(index -> !isFirstOrLastProgramLines(programLines, index))
                 .mapToObj(index -> Command.createCommand(programLines[index]))
                 .collect(Collectors.toList());
-        return collect;
     }
 
-    private static ArrayList<Block> generateBlocks(IBlockNameGenerator blockNameGenerator, String[] line) {
-        String firstLineOfProgram = line[0];
+    private static boolean isFirstOrLastProgramLines(String[] programLines, int index) {
+        return index == 0 || index == programLines.length - 1;
+    }
+
+    private static ArrayList<Block> generateBlocks(String firstLineOfProgram, IBlockNameGenerator blockNameGenerator) {
         int numberOfBlocks = parseInt(firstLineOfProgram);
         ArrayList<Block> blocks = new ArrayList<>();
         IntStream.range(0,numberOfBlocks).forEach(i -> {
